@@ -2,7 +2,7 @@
 # Environment Setup
 
 ```
- # python==3.8
+# python==3.8
 pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 pip install dgl==1.0.0+cu113 -f https://data.dgl.ai/wheels/cu113/repo.html
 pip install scikit-learn
@@ -34,7 +34,7 @@ python pcap2npy.py --dataset ciciot
 
 ## Construct Multi-View Heterogeneous Traffic Graph
 
-Before using  commands,  you may refer to **config.py** and customize all your own file paths. Then, run the following commands to start constructing.  In addition, we only give the full path of the ciciot dataset as a reference, the rest needs to be added by you.
+Before using  commands,  you may refer to **config.py** and customize all your own file paths. Then, run the following commands to start constructing.  In addition, we only give the full path of the ciciot dataset as a reference, you can add others by yourself.
 
 You can modify the transform_length number to generate Heterogeneous Traffic Graph with different bit lengths. 
 
