@@ -354,7 +354,7 @@ class MixTemporalGNN(nn.Module):
     
     def max_node(self,g,idx,edge_type,max_node):
         max_nodes_per_seed = min(
-                4,
+                25,
                 int(
                     (
                         (g.in_degrees(idx,etype = edge_type) ** 0.75)
