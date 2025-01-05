@@ -46,7 +46,6 @@ class MixTrafficFlowDataset4DGL(DGLDataset):
         
     def __getitem__(self, index):
         start_ind = config.FLOW_PAD_TRUNC_LENGTH * index
-        end_ind = start_ind + config.FLOW_PAD_TRUNC_LENGTH
         
         return  self.hetro_data[start_ind:start_ind+self.point], self.bit_hetro_data[start_ind:start_ind+self.point], self.label[index],\
             self.hetro_mask[start_ind:start_ind+self.point], self.bit_hetro_mask[start_ind:start_ind+self.point]
