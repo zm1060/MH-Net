@@ -1,9 +1,91 @@
 
-
-
 # Environment Setup
 
+```
+ # python==3.8
+pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+pip install dgl==1.0.0+cu113 -f https://data.dgl.ai/wheels/cu113/repo.html
+pip install scikit-learn
+pip install scapy
+```
 
+# Pre-processing
+
+The pre-processing of MH-NeT is similar with [TFE-GNN](https://github.com/ViktorAxelsen/TFE-GNN). You can optionally skip the pre-processing section.
+
+## Convert .pcap to .npz Files
+
+To facilitate subsequent processing, we extract the information of the .pcap file into the .npz file.
+
+You may refer to **config.py** and customize your own .pcap path in **DIR_PATH_DICT**. Then, run the following commands to start converting.
+
+```
+# ISCX-VPN
+python pcap2npy.py --dataset iscx-vpn
+# ISCX-NonVPN
+python pcap2npy.py --dataset iscx-nonvpn
+# ISCX-TOR
+python pcap2npy.py --dataset iscx-tor
+# ISCX-NonTOR
+python pcap2npy.py --dataset iscx-nontor
+# CIC-Iot
+python pcap2npy.py --dataset ciciot
+```
+
+## Construct Multi-View Heterogeneous Traffic Graph
+
+Before using  commands,  you may refer to **config.py** and customize all your own file paths. Then, run the following commands to start constructing.  In addition, we only give the full path of the ciciot dataset as a reference, the rest needs to be added by you.
+
+You can modify the transform_length number to generate Heterogeneous Traffic Graph with different bit lengths. 
+
+$Note$: We use 8bit as a baseline and convert 8bit to other bits for the traffic graph. 
+
+```
+# ISCX-VPN
+python preprocess.py --dataset iscx-vpn --transform_length 4
+# ISCX-NonVPN
+python preprocess.py --dataset iscx-nonvpn --transform_length 4
+# ISCX-TOR
+python preprocess.py --dataset iscx-tor --transform_length 4
+# ISCX-NonTOR
+python preprocess.py --dataset iscx-nontor --transform_length 4
+# CIC-IoT
+python preprocess.py --dataset ciciot --transform_length 4
+```
+
+# Trainging
+
+You can use these commands to start trainging.
+
+```
+# ISCX-VPN
+CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-vpn --prefix exp_train --coe 0.5 --coe_graph 1.0 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
+# ISCX-NonVPN
+CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-nonvpn --prefix exp_train --coe 0.8 --coe_graph 0.4 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
+# ISCX-TOR
+CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-tor --prefix exp_train --coe 1.0 --coe_graph 0.4 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
+# ISCX-NonTOR
+CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-nontor --prefix exp_train --coe 1.0 --coe_graph 0.6 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
+#CIC-IoT
+CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset ciciot --prefix exp_train --coe 1.0 --coe_graph 0.6 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
+```
+
+# Evaluation
+
+You can use these commands to start Evaluation.
+
+```
+# ISCX-VPN
+CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset iscx-vpn --prefix exp_train
+# ISCX-NonVPN
+CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset iscx-nonvpn --prefix exp_train
+# ISCX-TOR
+CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset iscx-tor --prefix exp_train
+# ISCX-NonTOR
+CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset iscx-nontor --prefix exp_train
+# CIC-IoT
+CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset ciciot --prefix exp_train
+```
 
 
 # MH-Net
