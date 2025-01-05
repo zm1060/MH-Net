@@ -23,8 +23,6 @@ AAAI'25 Main Technical Track Paper: Revolutionizing Encrypted Traffic Classifica
 </p>
 
 
-**We will open source the code soon (probably within a month)**
-
 
 # Environment Setup
 
