@@ -1,11 +1,11 @@
 
 # MH-Net
 
-AAAI'25 Main Technical Track Paper: Revolutionizing Encrypted Traffic Classification with MH-Net: A Multi-View Heterogeneous Graph Model
+Official implementation of the AAAI'25 Main Technical Track Paper: Revolutionizing Encrypted Traffic Classification with MH-Net: A Multi-View Heterogeneous Graph Model
 
 <p align="center">
-    <a href="https://arxiv.org/abs/xxxx.xxxxx">
-        <img alt="Build" src="https://img.shields.io/badge/arXiv-xxxx.xxxxx-red?logo=arxiv">
+    <a href="https://arxiv.org/abs/2501.03279">
+        <img alt="Build" src="https://img.shields.io/badge/arXiv-2501.03279-red?logo=arxiv">
     </a>
     <a href="https://github.com/ViktorAxelsen/MH-Net/blob/main/LICENSE">
         <img alt="License" src="https://img.shields.io/badge/LICENSE-MIT-green">
@@ -23,10 +23,13 @@ AAAI'25 Main Technical Track Paper: Revolutionizing Encrypted Traffic Classifica
 </p>
 
 
+![Method](./figures/MH-Net.png)
 
-# Environment Setup
 
-```
+
+## Environment Setup
+
+```bash
 # python==3.8
 pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 pip install dgl==1.0.0+cu113 -f https://data.dgl.ai/wheels/cu113/repo.html
@@ -34,17 +37,17 @@ pip install scikit-learn
 pip install scapy
 ```
 
-# Pre-processing
+## Pre-processing
 
-The pre-processing of MH-NeT is similar with [TFE-GNN](https://github.com/ViktorAxelsen/TFE-GNN). You can optionally skip the pre-processing section.
+The pre-processing of MH-Net is similar with [TFE-GNN](https://github.com/ViktorAxelsen/TFE-GNN). You can optionally skip the pre-processing section.
 
-## Convert .pcap to .npz Files
+### Convert .pcap to .npz Files
 
 To facilitate subsequent processing, we extract the information of the .pcap file into the .npz file.
 
 You may refer to **config.py** and customize your own .pcap path in **DIR_PATH_DICT**. Then, run the following commands to start converting.
 
-```
+```bash
 # ISCX-VPN
 python pcap2npy.py --dataset iscx-vpn
 # ISCX-NonVPN
@@ -57,15 +60,15 @@ python pcap2npy.py --dataset iscx-nontor
 python pcap2npy.py --dataset ciciot
 ```
 
-## Construct Multi-View Heterogeneous Traffic Graph
+### Construct Multi-View Heterogeneous Traffic Graphs
 
-Before using  commands,  you may refer to **config.py** and customize all your own file paths. Then, run the following commands to start constructing.  In addition, we only give the full path of the ciciot dataset as a reference, you can add others by yourself.
+Before running following commands,  you may refer to **config.py** and customize all your own file paths. Then, run the following commands to start constructing.  In addition, we only give the full path of the ciciot dataset as a reference, you can modify others by yourself.
 
-You can modify the transform_length number to generate Heterogeneous Traffic Graph with different bit lengths. 
+You can specify the "transform_length" to generate Heterogeneous Traffic Graphs with different bit lengths. 
 
-$Note$: We use 8bit as a baseline and convert 8bit to other bits for the traffic graph. 
+$Note$: We use 8-bit as a baseline and convert 8-bit to other bits for the traffic graph. 
 
-```
+```bash
 # ISCX-VPN
 python preprocess.py --dataset iscx-vpn --transform_length 4
 # ISCX-NonVPN
@@ -78,11 +81,11 @@ python preprocess.py --dataset iscx-nontor --transform_length 4
 python preprocess.py --dataset ciciot --transform_length 4
 ```
 
-# Trainging
+## Training
 
-You can use these commands to start trainging.
+You can run following commands to start training.
 
-```
+```bash
 # ISCX-VPN
 CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-vpn --prefix exp_train --coe 0.5 --coe_graph 1.0 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
 # ISCX-NonVPN
@@ -95,11 +98,11 @@ CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset iscx-nontor --prefix exp_
 CUDA_VISIBLE_DEVICES="0" python train_new.py --dataset ciciot --prefix exp_train --coe 1.0 --coe_graph 0.6 --seq_aug_ratio 0.6 --drop_edge_ratio 0.05 --drop_node_ratio 0.1 --K 15 --hp_ratio 0.5 --tau 0.07 --gtau 0.07
 ```
 
-# Evaluation
+## Evaluation
 
-You can use these commands to start Evaluation.
+You can run following commands to start evaluation.
 
-```
+```bash
 # ISCX-VPN
 CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset iscx-vpn --prefix exp_train
 # ISCX-NonVPN
@@ -122,7 +125,7 @@ CUDA_VISIBLE_DEVICES="0" python test_new.py --dataset ciciot --prefix exp_train
 @article{MH-Net,
   title={Revolutionizing Encrypted Traffic Classification with MH-Net: A Multi-View Heterogeneous Graph Model},
   author={Haozhen Zhang and Haodong Yue and Xi Xiao and Le Yu and Qing Li and Zhen Ling and Ye Zhang},
-  journal={arXiv preprint arXiv:xxxx.xxxxx},
+  journal={arXiv preprint arXiv:2501.03279},
   year={2025}
 }
 ```
