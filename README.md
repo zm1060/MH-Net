@@ -30,6 +30,9 @@ Official implementation of the AAAI'25 Main Technical Track Paper: Revolutionizi
 ## Environment Setup
 
 ```bash
+# Create and activate conda environment
+conda create -n mhnet python=3.8
+conda activate mhnet
 # python==3.8
 pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 pip install dgl==1.0.0+cu113 -f https://data.dgl.ai/wheels/cu113/repo.html
